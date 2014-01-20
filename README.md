@@ -30,17 +30,19 @@ Consumer Key and a Client Secret.
 
 
   var auth = sfnode.authenticate(authOptions)
-  .then(function(data){
+    .then(function(data){
 
-     var q = new FluentQuery.Query(data);
-     q.from('Account')
-     .select('ID,NAME')
-     .execute()
-     .then(function(d){
-        console.log(d);
-   });
+       var q = new FluentQuery.Query(data);
+       
+       q.from('Account')
+       .select('ID,NAME')
+       .execute()
+       .then(function(d){
+          console.log(d);
+          
+     });
 
-});
+  });
 
 </code>
 </pre>
