@@ -4,14 +4,15 @@ var FluentQuery = require('./lib/FluentQuery');
 
 
 var authOptions = new AuthOptions('password',
-                               'your consumer key',
-                               'your client secret',
-                               'your username',
-                               'your password + token')
+							   '',
+                               '',
+                               '',
+                               '')
 
 
 var auth = sfnode.authenticate(authOptions)
 .then(function(data){
+
 
     var q = new FluentQuery.Query(data);
     q.from('Account')
@@ -19,6 +20,15 @@ var auth = sfnode.authenticate(authOptions)
     .execute()
     .then(function(d){
         console.log(d);
+		if(d.nextRecordsUrl){
+			
+			q.nextRecords(d.nextRecordsUrl).execute().then(function(nextdata){
+				console.log(nextdata);
+			});
+		}
+		else {
+			console.log('Query complete!');
+		}
     });
 
 });
