@@ -22,9 +22,14 @@ var auth = sfnode.authenticate(authOptions)
         console.log(d);
 		if(d.nextRecordsUrl){
 			
-			q.nextRecords(d.nextRecordsUrl).execute().then(function(nextdata){
-				console.log(nextdata);
-			});
+            var proceed = true;
+            
+            while(proceed === true){
+                q.nextRecords(d.nextRecordsUrl).execute().then(function(nextdata){
+                    console.log(nextdata);
+                    if(!nextdata.nextRecordsUrl) proceed = false;
+                });
+            }
 		}
 		else {
 			console.log('Query complete!');
