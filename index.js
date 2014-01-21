@@ -9,7 +9,7 @@ var authOptions = new AuthOptions('password',
                                '',
                                '')
 
-
+var records;
 var auth = sfnode.authenticate(authOptions)
 .then(function(data){
 
@@ -19,14 +19,20 @@ var auth = sfnode.authenticate(authOptions)
     .select('ID,NAME')
     .execute()
     .then(function(d){
+        
         console.log(d);
+        records += d;
+        
 		if(d.nextRecordsUrl){
-			
+            
             var proceed = true;
             
             while(proceed === true){
                 q.nextRecords(d.nextRecordsUrl).execute().then(function(nextdata){
+                   
                     console.log(nextdata);
+                    records += nextdata;
+                    
                     if(!nextdata.nextRecordsUrl) proceed = false;
                 });
             }
